@@ -1,12 +1,3 @@
-# basic calculator functionalities
-#   add, subtract, multiply, divide, 
-#   equals, decimal, clear
-#   // further additions:
-#       - exponents, square root
-
-##### NEED TO CONVERT EVERYTHING TO FLOATS FOR FULL 
-#           CALC FUNCTIONALITY
-
 def lowerCaseFilter(word):
     strWord = str(word)
     finalWord = strWord.lower()
