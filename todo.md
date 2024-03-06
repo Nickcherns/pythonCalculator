@@ -6,10 +6,12 @@
 
 1. add function buttons (add, sub, divide, multiply)
    - attach existing function from calculator.py
-2. add equal button + function (take stored numbers and add)
-3. add decimal button 
-4. make sure all numbers are floats rather ints (more accurate calcuations?)
-5. adjust GUI for bigger buttons/interface
+2. add equal button with function (take stored numbers and add)
+3. ~~add decimal button~~
+4. ~~add clear button~~
+5. ~~add zero button~~
+6. make sure all numbers are floats rather ints (more accurate calcuations?)
+7. adjust GUI for bigger buttons/interface
 ---   
 *See Image for rough draft image:*
 > *Using Windows 10 standard calcuator for reference*

@@ -2,32 +2,72 @@ from functools import partial
 from tkinter import *
 from tkinter import ttk
 # from calculator import add, subtract, divide, multiply
+from calculator import add, subtract, divide, multiply
+
 
 #placeholder function for building widgets
 def placeHolderFunc():
     print("you are using the placeholder function")
 
 
-## list is only being changed in the function, instead of actually changing the original list
-##      advice was to "change the actual elements instead of temporarily adding elements"
+# empty list to hold current working value
+currentValue = []
+# empty list to hold values to be expressed upon
+heldValues = []
 
+# idea is:
+#   when expression button is hit >> currentValue gets stored into heldValues
+#           currentValue >> heldValues
+#   when equal button is hit, heldValues list get iterated and each element gets solved into 
+#       one value
+#  - how will you let the equalButton know which function to produce??
+#       
 
 
 # function to add digits to label and update
-currentDigits = []
 def digitPress(digit):
     # add each digit to a list then add each list item into a string
-    currentDigits[-1:] = (str(digit))
+    currentValue.append(str(digit))
     newLabel = ""
-    for i in range(len(currentDigits)):
-        newLabel = newLabel + currentDigits[i]
+    for i in range(len(currentValue)):
+        newLabel = newLabel + currentValue[i]
     #update label and print debug values
     calcLabel['text'] = newLabel
     print("digit: ", digit, "newValue: ", newLabel)
 
-def clearCalc(currentDigits): 
-    currentDigits = ["0"]
+# zero button fuction
+def pressZeroButton():
+    currentValue.append("0")
+    newLabel = ""
+    for i in range(len(currentValue)):
+        newLabel = newLabel + currentValue[i]
+    calcLabel['text'] = newLabel
+    print('newLabel: ', newLabel, "-- currentValue: ", currentValue)
+
+def pressDecimalButton():
+    currentValue.append(".")
+    newLabel = ""
+    for i in range(len(currentValue)):
+        newLabel = newLabel + currentValue[i]
+    calcLabel['text'] = newLabel
+    print('newLabel: ', newLabel, "-- currentValue: ", currentValue)
+
+# clear calcutor function
+def clearCalc(): 
+    currentValue.clear()
     calcLabel['text'] = str(0)
+    print(currentValue)
+
+# delete last entry function
+def deleteLast():
+    if len(currentValue) < 1:
+        return
+    currentValue.pop()
+    newLabel = ""
+    for i in range(len(currentValue)):
+        newLabel = newLabel + currentValue[i]
+    calcLabel['text'] = newLabel
+    print('newLabel: ', newLabel, "-- currentValue: ", currentValue)
 
 #tkinter setup with added frame
 root = Tk()
@@ -53,18 +93,25 @@ for row in range(3):
     for col in range(3):
         b = b + 1
         # dont understand the lambda, but it works
-        ttk.Button(mainframe, text=str(b), command = lambda b = b : digitPress(b)).grid(row=(row+1), column=col)
+        ttk.Button(mainframe, text=str(b), command= lambda b = b : digitPress(b)).grid(row=(row+2), column=col)
 
 # ZERO, DECIMAL, CLEAR buttons
-    # zero
-zeroButton = ttk.Button(mainframe, text=0, command=placeHolderFunc)
-zeroButton.grid(row=4, column=2)
-    # decimal
-decimalButton = ttk.Button(mainframe, text=".", command=placeHolderFunc)
-decimalButton.grid(row=4, column=1)
-    # clear 
-clearButton = ttk.Button(mainframe, text="C", command=partial(clearCalc, currentDigits))
-clearButton.grid(row=4, column=0)
+    # equals (*needs function)
+equalsButton = ttk.Button(mainframe, text="=", command=placeHolderFunc)
+equalsButton.grid(row=5, column=2)
+    # decimal (WORKS)
+decimalButton = ttk.Button(mainframe, text=".", command=pressDecimalButton)
+decimalButton.grid(row=5, column=1)
+    # zero (WORKS)
+zeroButton = ttk.Button(mainframe, text="0", command=pressZeroButton)
+zeroButton.grid(row=5, column=0)
+    # clear (WORKS)
+clearButton = ttk.Button(mainframe, text="C", command=clearCalc)
+clearButton.grid(row=1, column=2)
+    # delete (WORKS)
+delButton = ttk.Button(mainframe, text="DEL", command=deleteLast)
+delButton.grid(row=0, column=4)
+
 
 # fourth row buttons (expression's)
     # ADD, SUBTRACT, DIVIDE, MULTIPLY
